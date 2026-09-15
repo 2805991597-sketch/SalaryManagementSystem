@@ -36,8 +36,8 @@
           </el-form-item>
         </el-form>
         <div class="login-tips">
-          <p>测试账号：admin / 123456（管理员）</p>
-          <p>hr / 123456（HR） | user / 123456（员工）</p>
+          <p>测试账号：admin / admin（管理员）</p>
+          <p>hr / hr（HR） | user1 / user1（员工）</p>
         </div>
       </div>
     </div>
