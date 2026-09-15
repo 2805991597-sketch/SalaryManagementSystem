@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DeptMapper">
+
+    <select id="findAll" resultType="Dept">
+        SELECT * FROM dept
+    </select>
+
+    <select id="findByDeptName" resultType="Dept">
+        SELECT * FROM dept WHERE dept_name LIKE CONCAT('%', #{deptName}, '%')
+    </select>
+
+    <insert id="insert">
+        INSERT INTO dept (dept_name, remark)
+        VALUES (#{deptName}, #{remark})
+    </insert>
+
+    <update id="update">
+        UPDATE dept
+        SET dept_name=#{deptName}, remark=#{remark}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM dept WHERE id=#{id}
+    </delete>
+
+</mapper>

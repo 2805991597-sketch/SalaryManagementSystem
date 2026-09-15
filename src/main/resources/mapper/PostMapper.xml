@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//MyBatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.PostMapper">
+
+    <select id="list" resultType="com.example.pojo.Post">
+        SELECT
+        p.*,
+        d.dept_name AS deptName
+        FROM post p
+        LEFT JOIN dept d ON p.dept_id = d.id
+        <where>
+            <if test="deptId != null">
+                AND p.dept_id = #{deptId}
+            </if>
+            <if test="postName != null and postName != ''">
+                AND p.post_name LIKE CONCAT('%', #{postName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getById" resultType="com.example.pojo.Post">
+        select p.id, p.post_name, p.dept_id, d.dept_name, p.base_salary
+        from post p
+                 left join dept d on p.dept_id = d.id
+        where p.id=#{id}
+    </select>
+
+    <insert id="add">
+        insert into post(post_name, dept_id, base_salary)
+        values(#{postName}, #{deptId}, #{baseSalary})
+    </insert>
+
+    <update id="update">
+        update post
+        set post_name=#{postName},
+            dept_id=#{deptId},
+            base_salary=#{baseSalary}
+        where id=#{id}
+    </update>
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO post(post_name, dept_id, base_salary)
+        VALUES(#{postName}, #{deptId}, #{baseSalary})
+    </insert>
+
+    <delete id="delete">
+        delete from post where id=#{id}
+    </delete>
+
+</mapper>

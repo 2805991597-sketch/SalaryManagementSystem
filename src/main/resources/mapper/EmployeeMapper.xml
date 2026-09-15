@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.EmployeeMapper">
+
+    <select id="list" resultType="com.example.pojo.Employee">
+        SELECT
+        e.*,
+        d.dept_name AS deptName,
+        p.post_name AS postName,
+        p.base_salary AS postBaseSalary,
+        l.level_name AS levelName,
+        r.role_name AS roleName
+        FROM employee e
+        LEFT JOIN dept d ON e.dept_id = d.id
+        LEFT JOIN post p ON e.post_id = p.id
+        LEFT JOIN level l ON e.level_id = l.id
+        LEFT JOIN role r ON e.role_id = r.id
+        <where>
+            <if test="deptId != null">
+                AND e.dept_id = #{deptId}
+            </if>
+            <if test="postId != null">
+                AND e.post_id = #{postId}
+            </if>
+            <if test="name != null and name != ''">
+                AND e.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert">
+        insert into employee(name, dept_id, post_id, level_id, personal_salary, role_id, username, password)
+        values(#{name}, #{deptId}, #{postId}, #{levelId}, #{personalSalary}, #{roleId}, #{username}, #{password})
+    </insert>
+
+    <update id="update">
+        update employee
+        set name=#{name},
+            dept_id=#{deptId},
+            post_id=#{postId},
+            level_id=#{levelId},
+            personal_salary=#{personalSalary},
+            role_id=#{roleId},
+            username=#{username},
+            password=#{password}
+        where id=#{id}
+    </update>
+
+    <delete id="delete">
+        delete from employee where id=#{id}
+    </delete>
+    <select id="findById" resultType="com.example.pojo.Employee">
+        SELECT e.*, r.role_name AS roleName, r.role_code AS roleCode, 
+               d.dept_name AS deptName, p.post_name AS postName, p.base_salary AS postBaseSalary, l.level_name AS levelName 
+        FROM employee e 
+        LEFT JOIN role r ON e.role_id = r.id 
+        LEFT JOIN dept d ON e.dept_id = d.id 
+        LEFT JOIN post p ON e.post_id = p.id 
+        LEFT JOIN level l ON e.level_id = l.id 
+        WHERE e.id = #{id}
+    </select>
+
+    <select id="findByUsername" resultType="com.example.pojo.Employee">
+        SELECT e.*, r.role_name AS roleName, r.role_code AS roleCode, 
+               d.dept_name AS deptName, p.post_name AS postName, p.base_salary AS postBaseSalary, l.level_name AS levelName 
+        FROM employee e 
+        LEFT JOIN role r ON e.role_id = r.id 
+        LEFT JOIN dept d ON e.dept_id = d.id 
+        LEFT JOIN post p ON e.post_id = p.id 
+        LEFT JOIN level l ON e.level_id = l.id 
+        WHERE e.username = #{username}
+    </select>
+
+    <select id="countByDeptId" resultType="int">
+        SELECT COUNT(*) FROM employee WHERE dept_id = #{deptId}
+    </select>
+
+    <select id="countAttendanceByEmpId" resultType="int">
+        SELECT COUNT(*) FROM attendance WHERE emp_id = #{empId}
+    </select>
+
+    <select id="countSalaryByEmpId" resultType="int">
+        SELECT COUNT(*) FROM salary WHERE emp_id = #{empId}
+    </select>
+
+    <select id="countYearEndBonusByEmpId" resultType="int">
+        SELECT COUNT(*) FROM year_end_bonus WHERE emp_id = #{empId}
+    </select>
+
+</mapper>

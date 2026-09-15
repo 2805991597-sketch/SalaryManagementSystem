@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.SubsidyMapper">
+
+    <select id="findAll" resultType="com.example.pojo.Subsidy">
+        SELECT
+            s.id,
+            s.dept_id AS deptId,
+            d.dept_name AS deptName,
+            s.food_subsidy AS foodSubsidy,
+            s.traffic_subsidy AS trafficSubsidy,
+            s.housing_subsidy AS housingSubsidy
+        FROM subsidy s
+                 LEFT JOIN dept d ON s.dept_id = d.id
+    </select>
+
+    <insert id="insert">
+        INSERT INTO subsidy(dept_id, food_subsidy, traffic_subsidy, housing_subsidy)
+        VALUES(#{deptId}, #{foodSubsidy}, #{trafficSubsidy}, #{housingSubsidy})
+    </insert>
+
+    <update id="update">
+        UPDATE subsidy SET
+                           dept_id = #{deptId},
+                           food_subsidy = #{foodSubsidy},
+                           traffic_subsidy = #{trafficSubsidy},
+                           housing_subsidy = #{housingSubsidy}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM subsidy WHERE id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,49 @@
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+# ========== 下面新增 Java & Maven 项目必须的 ==========
+# Maven编译目录
+target/
+*.jar
+*.war
+*.ear
+
+# IDEA额外文件
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# 日志
+*.log
+
+# 临时文件
+*.tmp
+*.bak

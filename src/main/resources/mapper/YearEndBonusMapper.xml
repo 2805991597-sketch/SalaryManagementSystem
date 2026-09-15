@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.YearEndBonusMapper">
+    <resultMap id="BaseResultMap" type="com.example.pojo.YearEndBonus">
+        <id property="id" column="id"/>
+        <result property="empId" column="emp_id"/>
+        <result property="year" column="year"/>
+        <result property="bonusAmount" column="bonus_amount"/>
+        <result property="taxAmount" column="tax_amount"/>
+        <result property="netAmount" column="net_amount"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="name" column="name"/>
+        <result property="deptName" column="dept_name"/>
+    </resultMap>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT y.id, y.emp_id, y.year, y.bonus_amount, y.tax_amount, y.net_amount, y.created_at, y.updated_at,
+               e.name, d.dept_name
+        FROM year_end_bonus y
+        INNER JOIN employee e ON y.emp_id = e.id
+        LEFT JOIN dept d ON e.dept_id = d.id
+        <where>
+            <if test="year != null">AND y.year = #{year}</if>
+            <if test="empId != null">AND y.emp_id = #{empId}</if>
+            <if test="name != null and name != ''">AND e.name LIKE CONCAT('%', #{name}, '%')</if>
+        </where>
+        ORDER BY y.year DESC, e.name
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT y.*, e.name, d.dept_name AS deptName
+        FROM year_end_bonus y
+        INNER JOIN employee e ON y.emp_id = e.id
+        LEFT JOIN dept d ON e.dept_id = d.id
+        WHERE y.id = #{id}
+    </select>
+
+    <select id="findByEmpAndYear" resultMap="BaseResultMap">
+        SELECT * FROM year_end_bonus WHERE emp_id = #{empId} AND year = #{year}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO year_end_bonus (emp_id, year, bonus_amount, tax_amount, net_amount)
+        VALUES (#{empId}, #{year}, #{bonusAmount}, #{taxAmount}, #{netAmount})
+    </insert>
+
+    <update id="update">
+        UPDATE year_end_bonus
+        SET bonus_amount = #{bonusAmount},
+            tax_amount = #{taxAmount},
+            net_amount = #{netAmount}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM year_end_bonus WHERE id = #{id}
+    </delete>
+</mapper>
