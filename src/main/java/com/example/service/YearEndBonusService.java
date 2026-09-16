@@ -4,6 +4,7 @@ import com.example.mapper.SalaryMapper;
 import com.example.mapper.YearEndBonusMapper;
 import com.example.mapper.TaxDetailMapper;
 import com.example.pojo.Salary;
+import com.example.pojo.SalaryVO;
 import com.example.pojo.YearEndBonus;
 import com.example.pojo.TaxDetail;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class YearEndBonusService {
             return;
         }
 
-        List<Salary> salaryList = salaryMapper.list(null, null, null, null, bonus.getEmpId(), "DESC");
+        List<SalaryVO> salaryList = salaryMapper.list(null, null, null, null, bonus.getEmpId(), "DESC");
         BigDecimal yearSalary = BigDecimal.ZERO;
         BigDecimal yearActual = BigDecimal.ZERO;
         BigDecimal yearTax = BigDecimal.ZERO;
@@ -147,7 +148,7 @@ public class YearEndBonusService {
     public Map<String, Object> getAnnualSalarySummary(Integer empId, Integer year) {
         Map<String, Object> result = new HashMap<>();
 
-        List<Salary> salaryList = salaryMapper.list(null, null, null, null, empId, "DESC");
+        List<SalaryVO> salaryList = salaryMapper.list(null, null, null, null, empId, "DESC");
         BigDecimal yearSalary = BigDecimal.ZERO;
         BigDecimal yearTax = BigDecimal.ZERO;
         BigDecimal yearActual = BigDecimal.ZERO;

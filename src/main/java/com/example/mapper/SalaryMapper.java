@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.pojo.Salary;
+import com.example.pojo.SalaryVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,9 +12,9 @@ import java.util.List;
 public interface SalaryMapper {
 
     /**
-     * 多条件薪资列表查询
+     * 多条件薪资列表查询（联表带出员工姓名、部门名称）
      */
-    List<Salary> list(
+    List<SalaryVO> list(
             @Param("year") String year,
             @Param("month") String month,
             @Param("dept") String dept,
@@ -40,12 +41,12 @@ public interface SalaryMapper {
     /**
      * 根据id查询薪资（联表带出姓名、部门）
      */
-    Salary findById(Integer id);
+    SalaryVO findById(Integer id);
 
     /**
-     * 根据员工id+月份查询薪资
+     * 根据员工id+月份查询薪资（联表带出姓名、部门）
      * @param empId 员工id
      * @param month 月份 LocalDate，例如 2026‑09‑01
      */
-    Salary findByEmpAndMonth(@Param("empId") Integer empId, @Param("month") LocalDate month);
+    SalaryVO findByEmpAndMonth(@Param("empId") Integer empId, @Param("month") LocalDate month);
 }

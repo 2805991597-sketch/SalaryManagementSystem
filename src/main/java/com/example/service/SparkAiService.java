@@ -5,6 +5,7 @@ import com.example.mapper.EmployeeMapper;
 import com.example.mapper.SalaryMapper;
 import com.example.pojo.Employee;
 import com.example.pojo.Salary;
+import com.example.pojo.SalaryVO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
@@ -43,7 +44,7 @@ public class SparkAiService {
     public String generateSalaryPlan(Integer empId, Double targetSalary, String objective, Double yearEndBonus) {
         try {
             Employee employee = getEmployeeById(empId);
-            List<Salary> salaryList = salaryMapper.list(null, null, null, null, empId, "DESC");
+            List<SalaryVO> salaryList = salaryMapper.list(null, null, null, null, empId, "DESC");
             Salary latestSalary = null;
             if (salaryList != null && !salaryList.isEmpty()) {
                 latestSalary = salaryList.get(0);

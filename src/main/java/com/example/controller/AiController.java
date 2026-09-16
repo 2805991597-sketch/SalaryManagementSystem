@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.mapper.SalaryMapper;
 import com.example.mapper.TaxDetailMapper;
 import com.example.pojo.Salary;
+import com.example.pojo.SalaryVO;
 import com.example.pojo.TaxDetail;
 import com.example.service.SparkAiService;
 import jakarta.annotation.Resource;
@@ -161,7 +162,7 @@ public class AiController {
                 }
             }
 
-            List<Salary> salaryList = salaryMapper.list(null, null, null, null, empId, "DESC");
+            List<SalaryVO> salaryList = salaryMapper.list(null, null, null, null, empId, "DESC");
             Map<String, Object> salaryData = new HashMap<>();
             double currentBasic = 0;
             double foodSubsidy = 0;

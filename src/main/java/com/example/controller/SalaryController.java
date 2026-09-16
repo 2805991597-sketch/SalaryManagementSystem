@@ -6,6 +6,7 @@ import com.example.pojo.BatchResult;
 import com.example.pojo.PageResult;
 import com.example.pojo.Result;
 import com.example.pojo.Salary;
+import com.example.pojo.SalaryVO;
 import com.example.service.SalaryService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -37,7 +38,7 @@ public class SalaryController {
      * @return 分页结果对象，包含薪资数据列表、总条数、总页数
      */
     @GetMapping("/list")
-    public Result<PageResult<Salary>> list(
+    public Result<PageResult<SalaryVO>> list(
             @RequestParam(required = false) String year,
             @RequestParam(required = false) String month,
             @RequestParam(required = false) String dept,
@@ -53,7 +54,7 @@ public class SalaryController {
         if (!"ASC".equalsIgnoreCase(sortOrder) && !"DESC".equalsIgnoreCase(sortOrder)) {
             sortOrder = "DESC";
         }
-        PageResult<Salary> result = salaryService.list(year, month, dept, name, empId, sortOrder, pageNum, pageSize);
+        PageResult<SalaryVO> result = salaryService.list(year, month, dept, name, empId, sortOrder, pageNum, pageSize);
         return Result.success(result);
     }
 

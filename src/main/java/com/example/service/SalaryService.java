@@ -16,6 +16,7 @@ import com.example.pojo.Employee;
 import com.example.pojo.PageResult;
 import com.example.pojo.Post;
 import com.example.pojo.Salary;
+import com.example.pojo.SalaryVO;
 import com.example.pojo.Subsidy;
 import com.example.pojo.TaxDetail;
 import com.github.pagehelper.Page;
@@ -51,10 +52,10 @@ public class SalaryService {
     @Resource
     private TaxDetailMapper taxDetailMapper;
 
-    public PageResult<Salary> list(String year, String month, String dept, String name, Integer empId, String sortOrder, Integer pageNum, Integer pageSize) {
+    public PageResult<SalaryVO> list(String year, String month, String dept, String name, Integer empId, String sortOrder, Integer pageNum, Integer pageSize) {
         log.debug("查询薪资列表 - year:{}, month:{}, dept:{}, name:{}, empId:{}, sortOrder:{}", year, month, dept, name, empId, sortOrder);
         PageHelper.startPage(pageNum, pageSize);
-        Page<Salary> page = (Page<Salary>) salaryMapper.list(year, month, dept, name, empId, sortOrder);
+        Page<SalaryVO> page = (Page<SalaryVO>) salaryMapper.list(year, month, dept, name, empId, sortOrder);
         return PageResult.of(page.getResult(), page.getTotal(), pageNum, pageSize);
     }
 
@@ -78,8 +79,6 @@ public class SalaryService {
         salary.setId(dto.getId());
         salary.setEmpId(dto.getEmpId());
         salary.setMonth(parseMonth(dto.getMonth()));
-        // name仅内存赋值，数据库表无此字段，insert/update xml不会写入
-        salary.setName(emp.getName());
 
         // 优先使用DTO传来的值，如果没有再从数据库查询
         if (dto.getBasicSalary() != null) {
@@ -313,7 +312,6 @@ public class SalaryService {
                 Salary salary = new Salary();
                 salary.setEmpId(empId);
                 salary.setMonth(parseMonth(month));
-                salary.setName(emp.getName());
 
                 // 优先使用员工的个人基本工资，否则使用职位基本工资
                 if (emp.getPersonalSalary() != null) {
@@ -343,8 +341,6 @@ public class SalaryService {
                     salary.setFoodSubsidy(subsidy.getFoodSubsidy());
                     salary.setTrafficSubsidy(subsidy.getTrafficSubsidy());
                     salary.setHousingSubsidy(subsidy.getHousingSubsidy());
-                    // deptName仅内存赋值，数据库无此字段
-                    salary.setDeptName(subsidy.getDeptName());
                 } else {
                     salary.setFoodSubsidy(BigDecimal.ZERO);
                     salary.setTrafficSubsidy(BigDecimal.ZERO);
@@ -418,7 +414,6 @@ public class SalaryService {
         Salary salary = new Salary();
         salary.setEmpId(empId);
         salary.setMonth(month);
-        salary.setName(emp.getName());
 
         // 计算基本工资
         if (emp.getPersonalSalary() != null) {

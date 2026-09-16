@@ -8,8 +8,6 @@ public class Salary {
     private Integer id;
     private Integer empId;
     private LocalDate month;
-    private String name;
-    private String deptName;
 
     private BigDecimal basicSalary;       // 基本工资
     private BigDecimal foodSubsidy;       // 餐补
